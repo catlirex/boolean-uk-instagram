@@ -10,7 +10,6 @@ let createPostSection = document.createElement("section")
 createPostSection.setAttribute("class","create-post-section")
 
 
-
 main.append(createPostSection)
 root.append(mainHeader, main)
 
@@ -119,19 +118,20 @@ function displayFeed(post, feedList){
     commentsContainer.setAttribute("class", "post--comments")
     let h3El = document.createElement("h3")
     h3El.innerText = "Comments"
-    commentsContainer.append(h3El)
+    commentsContainer.prepend(h3El)
 
     for(comment of post.comments){
-        displayComment(comment, commentsContainer)
+        
+        commentsContainer.append(displayComment(comment, commentsContainer))
     }
 
-    insertCommentForm(commentsContainer)
+    insertCommentForm(post, commentsContainer)
 
     postLi.append(imgContainer, postContentContainer, commentsContainer)
     feedList.append(postLi)
 }
 
-function insertCommentForm(commentsContainer){
+function insertCommentForm(post, commentsContainer){
     let commentForm = document.createElement("form")
     commentForm.setAttribute("id", "create-comment-form")
     commentForm.setAttribute("autocomplete", "off")
@@ -151,9 +151,31 @@ function insertCommentForm(commentsContainer){
 
     commentForm.append(inputLabel, inputEl, commentBtn)    
     commentsContainer.append(commentForm)
+
+    commentForm.addEventListener("submit", function(event){
+        event.preventDefault()
+
+        fetch(`http://localhost:3000/comments`,{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify({
+                content: commentForm.comment.value,
+                postId: post.id,
+                userId: post.userId
+            })
+        })
+        .then(response => response.json())
+        .then(function(NewComment){
+            commentForm.before(displayComment(NewComment,commentsContainer))
+        })
+        commentForm.reset()
+        
+    })
 }
 
-function displayComment(comment, commentsContainer){
+function displayComment(comment){
     
     let commentDiv = document.createElement("div")
     commentDiv.setAttribute("class", "post--comment")
@@ -176,8 +198,8 @@ function displayComment(comment, commentsContainer){
     para = document.createElement("p")
     para.innerText = comment.content
     commentDiv.append(para)
-    
-    commentsContainer.append(commentDiv)
+
+    return commentDiv
 }
 
 function getSingleUser(id){
