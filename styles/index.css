@@ -157,6 +157,11 @@ textarea {
   width: 288px;
 }
 
+/* addded width */
+.post .post--image img {
+  width: 100%;
+}
+
 .post h2 {
   text-transform: capitalize;
 
