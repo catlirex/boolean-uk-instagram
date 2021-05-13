@@ -42,7 +42,7 @@ function runPreview(previewPost){
     if (previewImg === null){
      previewImg = document.createElement("img")
     }
-    
+
     previewImg.setAttribute("src", previewPost.image)
     previewImg.setAttribute("alt", previewPost.title)
     previewImgContainer.append(previewImg)
@@ -170,7 +170,7 @@ function postNewPost(newPost){
             displayFeed(NewPost)
         })
         
-    } 
+} 
 
 function displayHeaderUser (users){
     let headerWrapper = document.createElement("div")
@@ -228,7 +228,7 @@ function activeUpdate(){
     for (chip of chipsArray){
         if (chip !== currentChip) chip.setAttribute("class","chip")
     }
- }
+}
 
 function displayFeedList(posts){
 
@@ -284,6 +284,8 @@ function displayFeed(post){
     h3El.innerText = "Comments"
     commentsContainer.prepend(h3El)
 
+    postLi.append(imgContainer, postContentContainer, insertLikeSection(post), commentsContainer)
+
     let commentsArray = post.comments
     if(commentsArray !== undefined){
         for(comment of post.comments){
@@ -292,11 +294,11 @@ function displayFeed(post){
     
     }
     
-    insertCommentForm(post, commentsContainer)
-    postLi.append(imgContainer, postContentContainer, insertLikeSection(post), commentsContainer)
 
     let feedList = document.querySelector(".stack")
     feedList.prepend(postLi)
+
+    insertCommentForm(post)
     
 }
 
@@ -338,7 +340,7 @@ function insertLikeSection(post){
     return likesSection
 }
 
-function insertCommentForm(post, commentsContainer){
+function insertCommentForm(post){
     let commentForm = document.createElement("form")
     commentForm.setAttribute("id", "create-comment-form")
     commentForm.setAttribute("autocomplete", "off")
@@ -356,7 +358,9 @@ function insertCommentForm(post, commentsContainer){
     commentBtn.setAttribute("type","submit")
     commentBtn.innerText = "Comment"
 
-    commentForm.append(inputLabel, inputEl, commentBtn)    
+    commentForm.append(inputLabel, inputEl, commentBtn)
+
+    let commentsContainer = document.querySelector(".post div.post--comments")
     commentsContainer.append(commentForm)
 
     commentForm.addEventListener("submit", function(event){
