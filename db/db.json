@@ -49,6 +49,28 @@
       },
       "likes": 0,
       "userId": 2
+    },
+    {
+      "title": "i love food",
+      "content": "anyone wanna join me?",
+      "image": {
+        "src": "https://image.freepik.com/free-photo/arrangement-with-delicious-food-view_23-2148941556.jpg",
+        "alt": "i love food"
+      },
+      "likes": 3,
+      "userId": 3,
+      "id": 4
+    },
+    {
+      "title": "SOOOOO Cute",
+      "content": "Can someone but me a cat?",
+      "image": {
+        "src": "https://image.freepik.com/free-photo/kitten-sleeps-sweater_169016-2511.jpg",
+        "alt": "SOOOOO Cute"
+      },
+      "likes": 0,
+      "userId": 2,
+      "id": 5
     }
   ],
   "comments": [
@@ -99,6 +121,12 @@
       "postId": 1,
       "userId": 1,
       "id": 8
+    },
+    {
+      "content": "wonderful",
+      "postId": 4,
+      "userId": 2,
+      "id": 9
     }
   ]
 }

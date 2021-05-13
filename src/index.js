@@ -6,6 +6,28 @@ function createPostForm(createPostSection){
     postForm = document.createElement("form")
     postForm.setAttribute("id","create-post-form")
     postForm.setAttribute("autocomplete","off")
+    postForm.addEventListener("submit", function(event){
+        event.preventDefault()
+        if (activeUser === null){
+            alert("Please select user account from top bar before create new post")
+        }
+        else{
+        const newPost = {
+            title: postForm.title.value,
+            content: postForm.content.value,
+            image:{
+                src: postForm.image.value,
+                alt: postForm.title.value
+            },
+            likes:0,
+            userId: activeUser.id
+        }
+
+        postNewPost(newPost)
+        postForm.reset()
+    }
+
+    })
 
     let formH2 = document.createElement("h2")
     formH2.innerText = "Create a post"
@@ -54,10 +76,30 @@ function createPostForm(createPostSection){
     createPostSection.append(postForm)
 }
 
-function submitPostForm(){
+function postNewPost(newPost){
 
-}
-
+        fetch(`http://localhost:3000/posts`,{
+            method:"POST",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify({
+                title: newPost.title,
+                content: newPost.content,
+                image:{
+                    src: newPost.image.src,
+                    alt: newPost.image.alt
+                },
+                likes:0,
+                userId: newPost.userId,
+            })
+        })
+        .then(response => response.json())
+        .then(function(NewPost){
+            displayFeed(NewPost)
+        })
+        
+    } 
 
 function displayHeaderUser (users){
     let headerWrapper = document.createElement("div")
@@ -122,17 +164,17 @@ function displayFeedList(posts){
     let feedList = document.createElement("ul")
     feedList.setAttribute("class","stack")
 
-    for(post of posts){
-        displayFeed(post, feedList)
-    }
-
     let main = document.querySelector("main")
     main.append(feedSection)
     feedSection.append(feedList)
 
+    for(post of posts){
+        displayFeed(post)
+    }
+
 }
 
-function displayFeed(post, feedList){
+function displayFeed(post){
     let userId = post.userId
 
     let postLi = document.createElement("li")
@@ -168,15 +210,20 @@ function displayFeed(post, feedList){
     h3El.innerText = "Comments"
     commentsContainer.prepend(h3El)
 
-    for(comment of post.comments){
-        
-        commentsContainer.append(displayComment(comment, commentsContainer))
+    let commentsArray = post.comments
+    if(commentsArray !== undefined){
+        for(comment of post.comments){
+            commentsContainer.append(displayComment(comment, commentsContainer))
+            }
+    
     }
-
+    
     insertCommentForm(post, commentsContainer)
-
     postLi.append(imgContainer, postContentContainer, insertLikeSection(post), commentsContainer)
-    feedList.append(postLi)
+
+    let feedList = document.querySelector(".stack")
+    feedList.prepend(postLi)
+    
 }
 
 function insertLikeSection(post){
