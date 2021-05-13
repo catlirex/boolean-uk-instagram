@@ -83,7 +83,6 @@ function displayFeedList(posts){
 
 }
 
-
 function displayFeed(post, feedList){
     let userId = post.userId
 
@@ -127,8 +126,46 @@ function displayFeed(post, feedList){
 
     insertCommentForm(post, commentsContainer)
 
-    postLi.append(imgContainer, postContentContainer, commentsContainer)
+    postLi.append(imgContainer, postContentContainer, insertLikeSection(post), commentsContainer)
     feedList.append(postLi)
+}
+
+function insertLikeSection(post){
+    let likesSection = document.createElement("div")
+    likesSection.setAttribute("class","likes-section")
+
+    let numOfLike = document.createElement("span")
+    numOfLike.setAttribute("class", "likes")
+    numOfLike.innerText = post.likes
+
+    let likeButton = document.createElement("button")
+    likeButton.setAttribute("class", "like-button")
+    likeButton.innerText = "♥"
+    likesSection.append(numOfLike, likeButton)
+    likeButton.addEventListener('click', function(){
+        post.likes ++
+        fetch(`http://localhost:3000/posts/${post.id}`,{
+            method:"PATCH",
+            headers:{
+                "Content-Type":"application/json"
+            },
+            body: JSON.stringify({
+                likes : post.likes
+            })
+        })
+        .then(response => response.json())
+        .then(function(json){
+            numOfLike.innerText = json.likes
+           
+        })
+        .catch((error) => {
+            console.log(error)
+            alert("There is something wrong.....")
+          });
+
+    })
+    
+    return likesSection
 }
 
 function insertCommentForm(post, commentsContainer){
@@ -232,7 +269,6 @@ function getAllPosts(){
     });
 
 }
-
 
 function displayMain(){
 
