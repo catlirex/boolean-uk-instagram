@@ -1,6 +1,38 @@
 let activeUser = null
 let currentChip = null;
 
+function displayPreviewSection(){
+
+    let createPostSection = document.querySelector(".create-post-section")
+    let previewPostCard = document.createElement("div")
+    previewPostCard.setAttribute("class","post")
+    createPostSection.append(previewPostCard)
+
+    if(activeUser !== null){
+        previewPostCard.append(createUserChip(activeUser))
+    }
+    else{
+        const dummyUser = {
+            avatar: "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png",
+            username: "Please Select User"
+        }
+        previewPostCard.append(createUserChip(dummyUser))
+    }
+
+    let previewImg = document.createElement("div")
+    previewImg.setAttribute("class", "post--image loading-state")
+
+    let previewContent = document.createElement("div")
+    previewContent.setAttribute("class", "post--content")
+
+    let previewH2 = document.createElement("h2")
+    previewH2.setAttribute("class", "loading-state")
+    let previewPara = document.createElement("p")
+    previewPara.setAttribute("class", "loading-state")
+    previewContent.append(previewH2, previewPara)
+
+    previewPostCard.append(previewImg, previewContent)
+}
 
 function createPostForm(createPostSection){
     postForm = document.createElement("form")
@@ -129,6 +161,9 @@ function createUserChip(user){
         currentChip = chip
         chip.setAttribute("class", "chip active")
 
+        let previewPostCard = document.querySelector("div.post")
+        previewPostCard.remove()
+        displayPreviewSection()
         setTimeout(activeUpdate, 10)
         })
 
@@ -386,10 +421,12 @@ function displayMain(){
 
     let createPostSection = document.createElement("section")
     createPostSection.setAttribute("class","create-post-section")
-    createPostForm(createPostSection)
-
+    
     root.append(mainHeader, main)
     main.append(createPostSection)
+
+    createPostForm(createPostSection)
+    displayPreviewSection()
 
     getAllUsers()
         .then(function(users){

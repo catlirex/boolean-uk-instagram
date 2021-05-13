@@ -143,6 +143,7 @@ textarea {
 .post .post--image.loading-state {
   width: 288px;
   height: 288px;
+  display: inherit;
 }
 
 .post .chip {
@@ -160,6 +161,7 @@ textarea {
 
 .post .post--image {
   width: 288px;
+  display: contents;
 }
 
 /* addded width */
