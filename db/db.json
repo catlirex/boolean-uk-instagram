@@ -93,6 +93,12 @@
       "postId": 3,
       "userId": 2,
       "id": 7
+    },
+    {
+      "content": "great!!",
+      "postId": 1,
+      "userId": 1,
+      "id": 8
     }
   ]
 }

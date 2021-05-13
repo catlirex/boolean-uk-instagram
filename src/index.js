@@ -241,22 +241,30 @@ function insertCommentForm(post, commentsContainer){
     commentForm.addEventListener("submit", function(event){
         event.preventDefault()
 
-        fetch(`http://localhost:3000/comments`,{
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body: JSON.stringify({
-                content: commentForm.comment.value,
-                postId: post.id,
-                userId: post.userId
+        if (activeUser === null){
+            alert("Please select user account from top bar before posting comment")
+        }
+
+        else{
+            
+            fetch(`http://localhost:3000/comments`,{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body: JSON.stringify({
+                    content: commentForm.comment.value,
+                    postId: post.id,
+                    userId: activeUser.id
+                })
             })
-        })
-        .then(response => response.json())
-        .then(function(NewComment){
-            commentForm.before(displayComment(NewComment,commentsContainer))
-        })
-        commentForm.reset()
+            .then(response => response.json())
+            .then(function(NewComment){
+                commentForm.before(displayComment(NewComment,commentsContainer))
+            })
+            commentForm.reset()
+        }
+        
         
     })
 }
