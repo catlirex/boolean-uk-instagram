@@ -1,25 +1,73 @@
-let root = document.querySelector("#root")
-
-let mainHeader = document.createElement("header")
-mainHeader.setAttribute("class", "main-header")
-
-let main = document.createElement("main")
-main.setAttribute("class", "wrapper")
-
-let createPostSection = document.createElement("section")
-createPostSection.setAttribute("class","create-post-section")
+let activeUser = null
+let currentChip = null;
 
 
-main.append(createPostSection)
-root.append(mainHeader, main)
+function createPostForm(createPostSection){
+    postForm = document.createElement("form")
+    postForm.setAttribute("id","create-post-form")
+    postForm.setAttribute("autocomplete","off")
+
+    let formH2 = document.createElement("h2")
+    formH2.innerText = "Create a post"
+
+    let imgLabel = document.createElement("label")
+    imgLabel.setAttribute("for", "image")
+    imgLabel.innerText = "Image"
+
+    let imgInput = document.createElement("input")
+    imgInput.setAttribute("id", "image")
+    imgInput.setAttribute("name", "image")
+    imgInput.setAttribute("type", "text")
+
+    let titleLabel = document.createElement("label")
+    titleLabel.setAttribute("for", "title")
+    titleLabel.innerText = "Title"
+
+    let titleInput = document.createElement("input")
+    titleInput.setAttribute("id", "title")
+    titleInput.setAttribute("name", "title")
+    titleInput.setAttribute("type", "text")
+
+    let contentLabel = document.createElement("label")
+    contentLabel.setAttribute("for", "content")
+    contentLabel.innerText = "Content"
+
+    let contentInput = document.createElement("textarea")
+    contentInput.setAttribute("id", "content")
+    contentInput.setAttribute("name", "content")
+    contentInput.setAttribute("rows", "2")
+
+    let formBtnsContainer = document.createElement("div")
+    formBtnsContainer.setAttribute("class", "action-btns")
+
+    let previewBtn = document.createElement("button")
+    previewBtn.setAttribute("id", "preview-btn")
+    previewBtn.setAttribute("type", "button")
+    previewBtn.innerText = "Preview"
+
+    let submitBtn = document.createElement("button")
+    submitBtn.setAttribute("type", "submit")
+    submitBtn.innerText = "Post"
+
+    formBtnsContainer.append(previewBtn, submitBtn)
+    postForm.append(formH2, imgLabel, imgInput, titleLabel, titleInput, contentLabel, contentInput, formBtnsContainer)
+    createPostSection.append(postForm)
+}
+
+function submitPostForm(){
+
+}
 
 
 function displayHeaderUser (users){
     let headerWrapper = document.createElement("div")
     headerWrapper.setAttribute("class","wrapper")
+
+    let mainHeader = document.querySelector(".main-header")
+
     mainHeader.append(headerWrapper)
 
-    let currentChip = null;
+    
     let chipEl = []
     
     for(user of users){
@@ -31,11 +79,11 @@ function displayHeaderUser (users){
 
 function createUserChip(user){
     let chip = document.createElement("div")
-
     
     chip.setAttribute("class","chip")
 
     chip.addEventListener("click", function(){
+        activeUser = user
         currentChip = chip
         chip.setAttribute("class", "chip active")
 
@@ -78,6 +126,7 @@ function displayFeedList(posts){
         displayFeed(post, feedList)
     }
 
+    let main = document.querySelector("main")
     main.append(feedSection)
     feedSection.append(feedList)
 
@@ -271,6 +320,21 @@ function getAllPosts(){
 }
 
 function displayMain(){
+
+    let root = document.querySelector("#root")
+    
+    let mainHeader = document.createElement("header")
+    mainHeader.setAttribute("class", "main-header")
+
+    let main = document.createElement("main")
+    main.setAttribute("class", "wrapper")
+
+    let createPostSection = document.createElement("section")
+    createPostSection.setAttribute("class","create-post-section")
+    createPostForm(createPostSection)
+
+    root.append(mainHeader, main)
+    main.append(createPostSection)
 
     getAllUsers()
         .then(function(users){

@@ -22,6 +22,11 @@ body {
   overflow: hidden;
 }
 
+/* add image size */
+.avatar-small img {
+  width: 20px;
+}
+
 /* Wrapper Section */
 
 .wrapper {
