@@ -71,6 +71,28 @@
       "likes": 0,
       "userId": 2,
       "id": 5
+    },
+    {
+      "title": "Beautiful day",
+      "content": "I miss you ",
+      "image": {
+        "src": "https://images.freeimages.com/images/large-previews/e0c/hawaiin-sunset-1368289.jpg",
+        "alt": "Beautiful day"
+      },
+      "likes": 0,
+      "userId": 1,
+      "id": 6
+    },
+    {
+      "title": "when i was just a little girl",
+      "content": "I never ask my mother",
+      "image": {
+        "src": "https://images.pexels.com/photos/7642069/pexels-photo-7642069.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+        "alt": "when i was just a little girl"
+      },
+      "likes": 0,
+      "userId": 3,
+      "id": 7
     }
   ],
   "comments": [

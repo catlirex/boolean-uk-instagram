@@ -34,6 +34,30 @@ function displayPreviewSection(){
     previewPostCard.append(previewImg, previewContent)
 }
 
+function runPreview(previewPost){
+    let previewImgContainer = document.querySelector(".post--image")
+    previewImgContainer.classList.remove("loading-state");
+
+    let previewImg = previewImgContainer.querySelector("img")
+    if (previewImg === null){
+     previewImg = document.createElement("img")
+    }
+    
+    previewImg.setAttribute("src", previewPost.image)
+    previewImg.setAttribute("alt", previewPost.title)
+    previewImgContainer.append(previewImg)
+
+    let previewContentContainer = document.querySelector(".post--content")
+    let previewH2 =  previewContentContainer.querySelector("h2")
+    previewH2.classList.remove("loading-state");
+    previewH2.innerText = previewPost.title
+
+    let previewPara =  previewContentContainer.querySelector("p")
+    previewPara.classList.remove("loading-state");
+    previewPara.innerText = previewPost.content
+
+}
+
 function createPostForm(createPostSection){
     postForm = document.createElement("form")
     postForm.setAttribute("id","create-post-form")
@@ -98,6 +122,21 @@ function createPostForm(createPostSection){
     previewBtn.setAttribute("id", "preview-btn")
     previewBtn.setAttribute("type", "button")
     previewBtn.innerText = "Preview"
+    previewBtn.addEventListener("click", function(event){
+        event.preventDefault()
+        
+        if (activeUser === null){
+            alert("Please select user account from top bar before preview")
+        }
+        else{
+            const previewPost = {
+                title: postForm.title.value,
+                content: postForm.content.value,
+                image:postForm.image.value    
+            }
+            runPreview(previewPost)
+        }
+    })
 
     let submitBtn = document.createElement("button")
     submitBtn.setAttribute("type", "submit")
