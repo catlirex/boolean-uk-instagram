@@ -196,14 +196,16 @@ function createUserChip(user){
     chip.setAttribute("class","chip")
 
     chip.addEventListener("click", function(){
+
+        if(currentChip !== null) currentChip.classList.remove("active")
         activeUser = user
         currentChip = chip
         chip.setAttribute("class", "chip active")
+        // setTimeout(activeUpdate, 10)
 
         let previewPostCard = document.querySelector("div.post")
         previewPostCard.remove()
         displayPreviewSection()
-        setTimeout(activeUpdate, 10)
         })
 
     let avatar = document.createElement("div")
@@ -223,12 +225,12 @@ function createUserChip(user){
     return chip
 }
 
-function activeUpdate(){
-    let chipsArray = document.querySelectorAll(".chip")
-    for (chip of chipsArray){
-        if (chip !== currentChip) chip.setAttribute("class","chip")
-    }
-}
+// function activeUpdate(){
+//     let chipsArray = document.querySelectorAll(".chip")
+//     for (chip of chipsArray){
+//         if (chip !== currentChip) chip.setAttribute("class","chip")
+//     }
+// }
 
 function displayFeedList(posts){
 
